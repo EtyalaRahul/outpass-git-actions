@@ -27,15 +27,15 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v5
         with:
-          context: ./op-backend
-          file: ./op-backend/backend.Dockerfile
+          context: ./outpass-backend
+          file: ./outpass-backend/backend.Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/op-backend:latest
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
-          context: ./op-frontend
-          file: ./op-frontend/frontend.Dockerfile
+          context: ./outpass-frontend
+          file: ./outpass-frontend/frontend.Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/op-frontend:latest
