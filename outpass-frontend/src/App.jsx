@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// ✅ Use environment variable for API base URL
+const API_URL = import.meta.env.VITE_API_URL;
+
 const App = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,7 +16,7 @@ const App = () => {
 
   const [outpasses, setOutpasses] = useState([]);
 
-  // ✅ Handle input changes safely
+  // ✅ Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -26,21 +29,18 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:2025/outpass', {
-        // ✅ Added correct endpoint (POST /outpass)
+      const response = await fetch(`${API_URL}/outpass`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit form');
-      }
+      if (!response.ok) throw new Error('Failed to submit form');
 
       const data = await response.json();
       console.log('Form Submitted:', data);
 
-      // ✅ Reset form after successful submission
+      // ✅ Reset form
       setFormData({
         name: '',
         fathername: '',
@@ -51,7 +51,7 @@ const App = () => {
         time: '',
       });
 
-      // ✅ Refresh the list
+      // ✅ Refresh list
       fetchOutpasses();
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -61,12 +61,8 @@ const App = () => {
   // ✅ Fetch all outpasses
   const fetchOutpasses = async () => {
     try {
-      const response = await fetch('http://localhost:2025/outpass/all');
-      // ✅ Consistent endpoint pattern: /outpass/all
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch outpasses');
-      }
+      const response = await fetch(`${API_URL}/outpass/all`);
+      if (!response.ok) throw new Error('Failed to fetch outpasses');
 
       const data = await response.json();
       setOutpasses(data);
@@ -75,7 +71,7 @@ const App = () => {
     }
   };
 
-  // ✅ Fetch data on first render
+  // ✅ Fetch data on mount
   useEffect(() => {
     fetchOutpasses();
   }, []);
