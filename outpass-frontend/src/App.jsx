@@ -29,7 +29,7 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/outpass`, {
+      const response = await fetch(`${API_URL}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -61,7 +61,7 @@ const App = () => {
   // ✅ Fetch all outpasses
   const fetchOutpasses = async () => {
     try {
-      const response = await fetch(`${API_URL}/outpass/all`);
+      const response = await fetch(`${API_URL}/all`);
       if (!response.ok) throw new Error('Failed to fetch outpasses');
 
       const data = await response.json();
