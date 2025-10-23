@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+const api_url = import.meta.env.VITE_API_URL;
+console.log("API URL:", api_url);
 
 const App = () => {
   const [formData, setFormData] = useState({
@@ -26,8 +28,7 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:2025/', {
-        // ✅ Added correct endpoint (POST /outpass)
+      const response = await fetch(`${api_url}/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -61,9 +62,7 @@ const App = () => {
   // ✅ Fetch all outpasses
   const fetchOutpasses = async () => {
     try {
-      const response = await fetch('http://localhost:2025/all');
-      // ✅ Consistent endpoint pattern: /outpass/all
-
+      const response = await fetch(`${api_url}/all`);
       if (!response.ok) {
         throw new Error('Failed to fetch outpasses');
       }
